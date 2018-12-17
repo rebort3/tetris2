@@ -11,7 +11,7 @@ for( f = 0; f <20; f++){
 
     tauler[f] = [];
 
-    for(c = 0; c < 10; c++){
+    for(c = 0; c < 8; c++){
 
         tauler[f][c] = lliure;
         
@@ -19,12 +19,23 @@ for( f = 0; f <20; f++){
 
 }
 
-crearTauler();
+
+
+function casella(x,y,color){
+
+    canva.fillStyle = color;
+    canva.fillRect(x*15,y*15,15,15);
+
+    canva.strokeStyle = "negro";
+    canva.strokeRect(x*15,y*15,15,15);
+}
+
+
 
 function crearTauler(){
     for( f = 0; f <20; f++){
 
-        for(c = 0; c < 10; c++){
+        for(c = 0; c < 8; c++){
 
             casella(c,f,tauler[f][c]);
         }
@@ -32,31 +43,39 @@ function crearTauler(){
     }
 
 }
+const I = [
+    [
+        [0, 0, 0, 0],
+        [1, 1, 1, 1],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0]
+    ]
+];
 
- function GeneraPecaAleatoria()
-         { var peces = [
-                 [[[0,0,0,0],[0,1,1,0],[0,1,1,0],[0,0,0,0]],"groc"],
-                 [[[0,1,0,0],[0,1,0,0],[0,1,0,0],[0,1,0,0]],"lila"],
-                 [[[0,0,0,0],[0,1,1,0],[1,1,0,0],[0,0,0,0]],"verd"],
-                 [[[0,0,0,0],[0,1,1,0],[0,0,1,1],[0,0,0,0]],"roig"],
-                 [[[0,1,0,0],[0,1,0,0],[0,1,1,0],[0,0,0,0]],"blau"],
-                 [[[0,1,1,0],[0,1,0,0],[0,1,0,0],[0,0,0,0]],"taronga"],
-                 [[[0,0,0,0],[1,1,1,0],[0,1,0,0],[0,0,0,0]],"morat"] ]
-           var numeroAleatori = Math.round(Math.random()*6);                      
-           return peces[numeroAleatori];     
-       }
+
+const ColorPeces= [    
+    [I,"red"],  
+];
+
+function escollirPeca(){
+
+    var f = Math.floor(Math.random() * 1) 
+
+    return new peca( ColorPeces[f][0] , ColorPeces[f][1]);
+    
+}
+
+var p = escollirPeca();
        
-       var pa = GeneraPecaAleatoria();
-         var p = new Peça(pa[0],pa[1]);
          
          
-function peca("arrayPosicio",color){
-    this.peca = "arrayPosicio";
+function peca(I,color){
+    this.peca = I;
     this.color = color;
     
-    this.pecaPos = 0; //Les 4 posicions de cada peça seran un array i es sabra en quina posicio estant presionant un boto i substituint dins de x i y les posicions de la peça
+    this.pecaPos = 0; //Les 4 posicions de cada peça seran un array i es sabra en quina posicio estant presionant un boto i substituint dins de x i y les posicions de la peç
     this.pecaJoc = this.peca[this.PecaPos];
-
+    
     this.x = 3;
     this.y = -2;
 }
@@ -105,7 +124,7 @@ peca.prototype.contacte = function(peca,x,y,){
                 continue;
             }
             
-            if( x2 < 0 || x2 >= 10 || y2 >= 20 || tauler[y2][x2]!=lliure){
+            if( x2 < 0 || x2 >= 8 || y2 >= 20 || tauler[y2][x2]!=lliure){
                 return true;
             }
         }
@@ -142,32 +161,30 @@ peca.prototype.tope = function(){
 
         var filaplena = false;
 
-        for( c = 0; c < 10; c++){
+        for( c = 0; c < 8; c++){
 
             filaplena = filaplena && (tauler[f][c] != lliure);
         }
-
-        if(!filaplena){
-
-            for( c = 0; c < 10; c++){
-
-                tauler[0][c] = lliure;
-            }
-
-            for( y = f; y > 1; y--){
-
-                for( c = 0; c < 10; c++){
-
-                    tauler[y][c] = tauler[y-1][c];
-                    
-                }
-            }
-           
-            
+    
             
         }}
 
      crearTauler();  
     
 }
-    
+
+var iniciJoc = Date.now();
+var fiJoc = false;
+function baixada(){
+    var now = Date.now();
+    var delta = now - iniciJoc;
+    if(delta > 100){
+        p.baixar();
+        iniciJoc = Date.now();
+    }
+    if( !fiJoc){
+        requestAnimationFrame(baixada);
+    }
+}
+crearTauler(); //Inici Joc
+baixada();

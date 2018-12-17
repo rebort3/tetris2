@@ -138,7 +138,35 @@ peca.prototype.tope = function(){
         }
         
     }
-    
+    for(f = 0; f < 25; f++){
+
+        var filaplena = false;
+
+        for( c = 0; c < 10; c++){
+
+            filaplena = filaplena && (tauler[f][c] != lliure);
+        }
+
+        if(!filaplena){
+
+            for( c = 0; c < 10; c++){
+
+                tauler[0][c] = lliure;
+            }
+
+            for( y = f; y > 1; y--){
+
+                for( c = 0; c < 10; c++){
+
+                    tauler[y][c] = tauler[y-1][c];
+                    
+                }
+            }
+           
+            
+            
+        }}
+
      crearTauler();  
     
 }

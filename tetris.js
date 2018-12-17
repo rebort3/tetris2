@@ -55,7 +55,7 @@ function peca("arrayPosicio",color){
     this.color = color;
     
     this.pecaPos = 0; //Les 4 posicions de cada peça seran un array i es sabra en quina posicio estant presionant un boto i substituint dins de x i y les posicions de la peça
-    this.activepeca = this.peca[this.PecaPos];
+    this.pecaJoc = this.peca[this.PecaPos];
 
     this.x = 3;
     this.y = -2;
@@ -105,7 +105,7 @@ peca.prototype.contacte = function(peca,x,y,){
                 continue;
             }
             
-            if( x2 < 0 || x2 >= 10 || y2 >= 20 ||  tauler[y2][x2]!=lliure){
+            if( x2 < 0 || x2 >= 10 || y2 >= 20 || tauler[y2][x2]!=lliure){
                 return true;
             }
         }
@@ -128,4 +128,18 @@ function moviment(event){
     }
     
 }
+peca.prototype.tope = function(){
 
+    for( f = 0; f < this.pecaJoc.length; f++){
+
+        for(c = 0; c < this.pecaJoc.length; c++){
+
+            tauler[this.y+f][this.x+c] = this.color;
+        }
+        
+    }
+    
+     crearTauler();  
+    
+}
+    

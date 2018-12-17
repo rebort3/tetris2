@@ -176,15 +176,13 @@ peca.prototype.tope = function(){
 var iniciJoc = Date.now();
 var fiJoc = false;
 function baixada(){
-    var now = Date.now();
-    var delta = now - iniciJoc;
-    if(delta > 100){
         p.baixar();
         iniciJoc = Date.now();
-    }
+    
     if( !fiJoc){
         requestAnimationFrame(baixada);
     }
 }
+
 crearTauler(); //Inici Joc
 baixada();

@@ -1,48 +1,37 @@
-
 var canvahtml = document.getElementById("tetris");
-
 var canva = canvahtml.getContext("2d");
+
 //https://www.w3schools.com/tags/canvas_strokerect.asp
+//https://desarrolloweb.com/articulos/color-relleno-trazado-canvas.html
 
-const lliure = "grey"; 
 
-var tauler= [];
-for( f = 0; f <20; f++){
+var lliure = "grey"; 
 
-    tauler[f] = [];
-
-    for(c = 0; c < 8; c++){
-
+var tauler = [];
+for( f = 0; f <25; f++){
+     tauler[f] = [];
+    for(c = 0; c < 10; c++){
         tauler[f][c] = lliure;
-        
     }
-
 }
 
-
+crearTauler();
+caure();
 
 function casella(x,y,color){
-
     canva.fillStyle = color;
-    canva.fillRect(x*15,y*15,15,15);
-
     canva.strokeStyle = "negro";
+
+    canva.fillRect(x*15,y*15,15,15);
     canva.strokeRect(x*15,y*15,15,15);
 }
 
-
-
 function crearTauler(){
-    for( f = 0; f <20; f++){
-
-        for(c = 0; c < 8; c++){
-
+    for( f = 0; f <25; f++){
+        for(c = 0; c < 10; c++){
             casella(c,f,tauler[f][c]);
-        }
+}}}
 
-    }
-
-}
 const I = [
     [
         [0, 0, 0, 0],
@@ -53,78 +42,115 @@ const I = [
 ];
 
 
-const ColorPeces= [    
-    [I,"red"],  
+const peces = [    
+    [I,"red"]
 ];
 
 function escollirPeca(){
-
-    var f = Math.floor(Math.random() * 1) 
-
-    return new peca( ColorPeces[f][0] , ColorPeces[f][1]);
-    
+    var f = Math.floor(Math.random() * 0) 
+    return new peza(peces[f][0],peces[f][1]);
 }
 
 var p = escollirPeca();
-       
-         
-         
-function peca(I,color){
-    this.peca = I;
+
+
+function peza(I,color){
+    this.pesa = I;
     this.color = color;
     
-    this.pecaPos = 0; //Les 4 posicions de cada peça seran un array i es sabra en quina posicio estant presionant un boto i substituint dins de x i y les posicions de la peç
-    this.pecaJoc = this.peca[this.PecaPos];
+    this.PesaPos = 0;
+    this.pecaJoc = this.pesa[this.PesaPos];
     
     this.x = 3;
     this.y = -2;
 }
 
-peca.prototype.pintar = function(color){
-    for( f = 0; f < this.peca.length; f++){
-        for(c = 0; c < this.peca.length; c++){
-           
+peza.prototype.pintar = function(color){
+    for( f = 0; f < this.pecaJoc.length; f++){
+        for(c = 0; c < this.pecaJoc.length; c++){
+            // we draw only occupied squares
             if( this.pecaJoc[f][c]){
                 casella(this.x + c,this.y + f, color);
+}}}}
+
+peza.prototype.baixa = function(){
+    if(!this.contacte(0,1,this.pecaJoc)){
+        this.pintar(lliure);
+        this.y++;
+        this.pintar(this.color);
+
+    }else{
+
+        for( f = 0; f < this.pecaJoc.length; f++){
+        for(c = 0; c < this.pecaJoc.length; c++){
+
+            if( !this.pecaJoc[f][c]){
+                continue;
             }
-        }
+
+            if(this.y + f < 0){
+                
+
+                final = true;
+                break;
+            }
+
+            tauler[this.y+f][this.x+c] = this.color;
     }
 }
 
+    for(f = 0; f < 25; f++){
+        var esborrarFila = true;
+        for( c = 0; c < 10; c++){
+            esborrarFila = esborrarFila && (tauler[f][c] != lliure);
+        }
+        if(esborrarFila){
 
+            for( y = f; y > 1; y--){
+                for( c = 0; c < 10; c++){
+                    tauler[y][c] = tauler[y-1][c];
+                }
+            }
 
+            for( c = 0; c < 10; c++){
+                tauler[0][c] = lliure;
+            }
 
-peca.prototype.moureDreta = function(){
-    if(!this.contacte(this.pecaJoc,1,0)){
+        }
+    }
+
+    crearTauler();
+    p = escollirPeca();
+    }   
+}
+
+peza.prototype.moudreta = function(){
+    if(!this.contacte(1,0,this.pecaJoc)){
         this.pintar(lliure);
         this.x++;
         this.pintar(this.color);
     }
 }
 
-peca.prototype.moureEsquerra = function(){
-    if(!this.contacte(this.pecaJoc,-1,0)){
+peza.prototype.mouresquerra = function(){
+    if(!this.contacte(-1,0,this.pecaJoc)){
         this.pintar(lliure);
         this.x--;
         this.pintar(this.color);
     }
 }
 
-peca.prototype.contacte = function(peca,x,y,){
+peza.prototype.contacte = function(x,y,pesa){
+    for( f = 0; f < pesa.length; f++){
+        for(c = 0; c < pesa.length; c++){
 
-    for( f = 0; f < peca.length; f++){
-
-        for(c = 0; c < peca.length; c++){
-            
             var x2 = this.x + c + x;
             var y2 = this.y + f + y;
 
-
-            if(y2 < 0 || !peca[f][c]){
+            if(y2 < 0 || !pesa[f][c]){
                 continue;
             }
-            
-            if( x2 < 0 || x2 >= 8 || y2 >= 20 || tauler[y2][x2]!=lliure){
+            if(x2 < 0 || x2 >= 10 || y2 >= 25 || tauler[y2][x2] != lliure){
                 return true;
             }
         }
@@ -132,57 +158,29 @@ peca.prototype.contacte = function(peca,x,y,){
     return false;
 }
 
-document.addEventListener("keydown",moviment);
 
-function moviment(event){
-    
-    if(event.keyCode == 39){
-        p.moureDreta();
-        iniciJoc= Date.now();
-    }
-    
-    if(event.keyCode == 39){
-        p.moureDreta();
-        dropStart = Date.now();  
-    }
-    
-}
-peca.prototype.tope = function(){
+document.addEventListener("keydown",tecles);
 
-    for( f = 0; f < this.pecaJoc.length; f++){
-
-        for(c = 0; c < this.pecaJoc.length; c++){
-
-            tauler[this.y+f][this.x+c] = this.color;
-        }
-        
-    }
-    for(f = 0; f < 25; f++){
-
-        var filaplena = false;
-
-        for( c = 0; c < 8; c++){
-
-            filaplena = filaplena && (tauler[f][c] != lliure);
-        }
-    
-            
-        }}
-
-     crearTauler();  
-    
-}
-
-var iniciJoc = Date.now();
-var fiJoc = false;
-function baixada(){
-        p.baixar();
-        iniciJoc = Date.now();
-    
-    if( !fiJoc){
-        requestAnimationFrame(baixada);
+function tecles(accio){
+    if(accio.keyCode == 37){
+        p.mouresquerra();
+        baixar = Date.now();
+    }if(accio.keyCode == 39){
+        p.moudreta();
+        baixar = Date.now();
     }
 }
 
-crearTauler(); //Inici Joc
-baixada();
+
+var baixar = Date.now();
+var final = false;
+function caure(){
+
+    if(baixar > 0){
+        p.baixa();
+        baixar = Date.now();
+    }
+    if( !final){
+        requestAnimationFrame(caure);
+    }
+}

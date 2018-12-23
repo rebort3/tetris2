@@ -2,14 +2,16 @@
     var canvahtml = document.getElementById("tetris");
     var canva = canvahtml.getContext("2d");
     var punts = document.getElementById("punts");
+    var nivell = document.getElementById("nivell");
     //https://www.w3schools.com/tags/canvas_strokerect.asp
     //https://desarrolloweb.com/articulos/color-relleno-trazado-canvas.html
 
 
     var lliure = "grey"; 
-
+    var numPeces = 0;
+    
     var punts = 0;
-
+    
     var tauler = [];
     for( f = 0; f <25; f++){
          tauler[f] = [];
@@ -60,10 +62,18 @@ var llistaPeces = [I,O,Z,T,J,L,S];
 
     function escollirPeca(){
         punts += 10;
+        numPeces += 1;
+
+        if (numPeces > 9){
+
+            numPeces = 0;
+            nivell +=1;
+            
+        };
 
 
         var comptePeces=1;
-        var f = Math.floor(Math.random() * 0) 
+        var f = Math.floor(Math.random() * 6) 
         return new peza(peces[f][0],peces[f][1]);
 
     }
@@ -142,6 +152,8 @@ var llistaPeces = [I,O,Z,T,J,L,S];
 
         }
 document.getElementById("punts").innerHTML = punts;
+
+document.getElementById("nivell").innerHTML = nivell;
     }
 
     peza.prototype.moudreta = function(){
@@ -189,23 +201,28 @@ document.getElementById("punts").innerHTML = punts;
             p.moudreta();
            var dataCaiguda = Date.now();
         }
+
         if(accio.keyCode == 40){
             p.baixa();
             var dataCaiguda = Date.now();
             punts += 1;
             document.getElementById("punts").innerHTML = punts;
+
         }
     }
 
 
     var dataCaiguda = Date.now();
     var final = false;
-    
+    var nivell = 1;
+    var velocitat= [1000,900,800,700,600,500,400,300,200,100];
+    var vel = velocitat[nivell];
     function caure(){     
 
             var data = Date.now();
             var dataCaure = data - dataCaiguda;
-    if(dataCaure > 500){
+            var i = nivell;
+    if(dataCaure > vel){
         p.baixa();
         dataCaiguda = Date.now();
     }
@@ -213,4 +230,17 @@ document.getElementById("punts").innerHTML = punts;
             requestAnimationFrame(caure);
         }
     }
+
+
+    /*
+peza.prototype.rotarDreta = function () {
+            var formaNova = new Array();
+            for (var i=0;i<this.pecaJoc.length;i++) {
+                formaNova[i]=new Array();
+                for (var j=0;j<this.pecaJoc[i].length;j++) {
+                    formaNova[i][j]=this.pecaJoc[this.pecaJoc[i].length-1-j][i];
+                }
+            }
+            this.forma = formaNova;
+            }  */
 

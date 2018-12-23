@@ -1,12 +1,9 @@
-    
+
     var canvahtml = document.getElementById("tetris");
     var canva = canvahtml.getContext("2d");
     var punts = document.getElementById("punts");
     var nivell = document.getElementById("nivell");
-    //https://www.w3schools.com/tags/canvas_strokerect.asp
-    //https://desarrolloweb.com/articulos/color-relleno-trazado-canvas.html
-
-
+ 
     var lliure = "grey"; 
     var numPeces = 0;
     
@@ -15,7 +12,7 @@
     var tauler = [];
     for( f = 0; f <25; f++){
          tauler[f] = [];
-        for(c = 0; c < 8; c++){
+        for(c = 0; c < 10; c++){
             tauler[f][c] = lliure;
         }
     }
@@ -33,7 +30,7 @@
 
     function crearTauler(){
         for( f = 0; f <25; f++){
-            for(c = 0; c < 8; c++){
+            for(c = 0; c < 10; c++){
                 casella(c,f,tauler[f][c]);
     }}}
 
@@ -129,18 +126,18 @@ var llistaPeces = [I,O,Z,T,J,L,S];
 
         for(f = 0; f < 25; f++){
             var esborrarFila = true;
-            for( c = 0; c < 8; c++){
+            for( c = 0; c < 10; c++){
                 esborrarFila = esborrarFila && (tauler[f][c] != lliure);
             }
             if(esborrarFila){
 
                 for( y = f; y > 1; y--){
-                    for( c = 0; c < 8; c++){
+                    for( c = 0; c < 10; c++){
                         tauler[y][c] = tauler[y-1][c];
                     }
                 }
 
-                for( c = 0; c < 8; c++){
+                for( c = 0; c < 10; c++){
                     tauler[0][c] = lliure;
                 }
                 punts += 20;
@@ -182,7 +179,7 @@ document.getElementById("nivell").innerHTML = nivell;
                 if(y2 < 0 || !pesa[f][c]){
                     continue;
                 }
-                if(x2 < 0 || x2 >= 8 || y2 >= 25 || tauler[y2][x2] != lliure){
+                if(x2 < 0 || x2 >= 10 || y2 >= 25 || tauler[y2][x2] != lliure){
                     return true;
                 }
             }
@@ -231,16 +228,4 @@ document.getElementById("nivell").innerHTML = nivell;
         }
     }
 
-
-    /*
-peza.prototype.rotarDreta = function () {
-            var formaNova = new Array();
-            for (var i=0;i<this.pecaJoc.length;i++) {
-                formaNova[i]=new Array();
-                for (var j=0;j<this.pecaJoc[i].length;j++) {
-                    formaNova[i][j]=this.pecaJoc[this.pecaJoc[i].length-1-j][i];
-                }
-            }
-            this.forma = formaNova;
-            }  */
 

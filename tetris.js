@@ -1,12 +1,13 @@
-    
     var canvahtml = document.getElementById("tetris");
     var canva = canvahtml.getContext("2d");
-
+    var punts = document.getElementById("punts");
     //https://www.w3schools.com/tags/canvas_strokerect.asp
     //https://desarrolloweb.com/articulos/color-relleno-trazado-canvas.html
 
 
     var lliure = "grey"; 
+
+    var punts = 0;
 
     var tauler = [];
     for( f = 0; f <25; f++){
@@ -57,8 +58,13 @@ var llistaPeces = [I,O,Z,T,J,L,S];
     var proximaPesa = llistaPeces[Math.round(llistaPeces.length)];
 
     function escollirPeca(){
-        var f = Math.floor(Math.random() * 6) 
+        punts += 10;
+
+
+        var comptePeces=1;
+        var f = Math.floor(Math.random() * 0) 
         return new peza(peces[f][0],peces[f][1]);
+
     }
 
     var p = escollirPeca();
@@ -84,6 +90,7 @@ var llistaPeces = [I,O,Z,T,J,L,S];
     }}}}
 
     peza.prototype.baixa = function(){
+
         if(!this.contacte(0,1,this.pecaJoc)){
             this.pintar(lliure);
             this.y++;
@@ -125,13 +132,15 @@ var llistaPeces = [I,O,Z,T,J,L,S];
                 for( c = 0; c < 8; c++){
                     tauler[0][c] = lliure;
                 }
-
+                punts += 20;
             }
         }
 
         crearTauler();
         p = escollirPeca();
-        }   
+
+        }
+document.getElementById("punts").innerHTML = punts;
     }
 
     peza.prototype.moudreta = function(){
@@ -182,6 +191,8 @@ var llistaPeces = [I,O,Z,T,J,L,S];
         if(accio.keyCode == 40){
             p.baixa();
             var dataCaiguda = Date.now();
+            punts += 1;
+            document.getElementById("punts").innerHTML = punts;
         }
     }
 
@@ -189,7 +200,8 @@ var llistaPeces = [I,O,Z,T,J,L,S];
     var dataCaiguda = Date.now();
     var final = false;
     
-    function caure(){            
+    function caure(){     
+
             var data = Date.now();
             var dataCaure = data - dataCaiguda;
     if(dataCaure > 500){

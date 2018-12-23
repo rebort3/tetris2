@@ -1,0 +1,14 @@
+
+        div{
+            font-size: 30px;
+            font-weight: bold;
+            text-align: center;
+        }
+        canvas{
+           
+           display: block;
+           height:: 400px;
+           width: 200px;
+           text-align: center;
+           margin: 25 auto;
+        }

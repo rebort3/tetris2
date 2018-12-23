@@ -1,3 +1,4 @@
+    
     var canvahtml = document.getElementById("tetris");
     var canva = canvahtml.getContext("2d");
 
@@ -32,30 +33,39 @@
                 casella(c,f,tauler[f][c]);
     }}}
 
-    const I = [
-        [
-            [0, 0, 0, 0],
-            [1, 1, 1, 1],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0]
-        ]
-    ];
+const I = [[[0, 0, 0, 0],[1, 1, 1, 1],[0, 0, 0, 0],[0, 0, 0, 0]]];
+const O = [[[0, 0, 0, 0],[0, 1, 1, 0],[0, 1, 1, 0],[0, 0, 0, 0]]];
+const Z = [[[0, 1, 0, 0],[1, 1, 0, 0],[1, 0, 0, 0],[0, 0, 0, 0]]];
+const T = [[[0, 1, 0, 0],[1, 1, 0, 0],[0, 1, 0, 0],[0, 0, 0, 0]]];
+const J = [[[0, 1, 0, 0],[0, 1, 0, 0],[1, 1, 0, 0],[0, 0, 0, 0]]];
+const L = [[[1, 1, 0, 0],[0, 1, 0, 0],[0, 1, 0, 0],[0, 0, 0, 0]]];
+const S = [[[1, 0, 0, 0],[1, 1, 0, 0],[0, 1, 0, 0],[0, 0, 0, 0]]];
 
+var llistaPeces = [I,O,Z,T,J,L,S];
 
     const peces = [    
-        [I,"red"]
+        [I,"pink"],
+        [O,"yellow"],
+        [Z,"red"],
+        [T,"blue"],
+        [J,"orange"],
+        [L,"green"],
+        [S,"white"]
+
     ];
 
+    var proximaPesa = llistaPeces[Math.round(llistaPeces.length)];
+
     function escollirPeca(){
-        var f = Math.floor(Math.random() * 0) 
+        var f = Math.floor(Math.random() * 6) 
         return new peza(peces[f][0],peces[f][1]);
     }
 
     var p = escollirPeca();
 
 
-    function peza(I,color){
-        this.pesa = I;
+    function peza(proximaPesa,color){
+        this.pesa = proximaPesa;
         this.color = color;
         
         this.PesaPos = 0;

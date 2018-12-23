@@ -1,3 +1,4 @@
+    
     var canvahtml = document.getElementById("tetris");
     var canva = canvahtml.getContext("2d");
     var punts = document.getElementById("punts");
@@ -107,7 +108,7 @@ var llistaPeces = [I,O,Z,T,J,L,S];
 
                 if(this.y + f < 0){
                     
-
+                    alert("FI DEL JOC");
                     final = true;
                     break;
                 }
@@ -208,7 +209,8 @@ document.getElementById("punts").innerHTML = punts;
         p.baixa();
         dataCaiguda = Date.now();
     }
-        if( !final){
+        if(!final){
             requestAnimationFrame(caure);
         }
     }
+

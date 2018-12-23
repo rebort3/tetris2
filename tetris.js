@@ -1,4 +1,3 @@
-
     var canvahtml = document.getElementById("tetris");
     var canva = canvahtml.getContext("2d");
 
@@ -69,7 +68,7 @@
     peza.prototype.pintar = function(color){
         for( f = 0; f < this.pecaJoc.length; f++){
             for(c = 0; c < this.pecaJoc.length; c++){
-                // we draw only occupied squares
+                
                 if( this.pecaJoc[f][c]){
                     casella(this.x + c,this.y + f, color);
     }}}}
@@ -165,26 +164,29 @@
     function tecles(accio){
         if(accio.keyCode == 37){
             p.mouresquerra();
-            setInterval('p.baixa()',1000);
+            var dataCaiguda = Date.now();
         }if(accio.keyCode == 39){
             p.moudreta();
-            setInterval('p.baixa()',1000);
+           var dataCaiguda = Date.now();
         }
         if(accio.keyCode == 40){
             p.baixa();
-            setInterval('p.baixa()',1000);
+            var dataCaiguda = Date.now();
         }
     }
 
 
-    
+    var dataCaiguda = Date.now();
     var final = false;
     
     function caure(){            
-            setInterval('p.baixa()',1000);
-            
+            var data = Date.now();
+            var dataCaure = data - dataCaiguda;
+    if(dataCaure > 500){
+        p.baixa();
+        dataCaiguda = Date.now();
+    }
         if( !final){
             requestAnimationFrame(caure);
         }
     }
-
